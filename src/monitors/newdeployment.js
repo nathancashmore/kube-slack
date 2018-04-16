@@ -16,7 +16,7 @@ class DeploymentStatus extends EventEmitter{
   }
 
   async check(){
-    let containers = await kube.getContainerStatuses();
+    let containers = await kube.getPods();
 
     for(let item of containers){
       if(!item.image === global.image){
@@ -35,8 +35,6 @@ class DeploymentStatus extends EventEmitter{
         mrkdwn_in: ['text'],
         _key: `${item.pod.metadata.name}/${item.name}`,
       });
-
-      global.image = item.image;
     }
   }
 }
